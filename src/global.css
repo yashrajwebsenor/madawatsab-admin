@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  color: #4a4a4a;
+  box-sizing: border-box;
+  background-color: #eff0f0;
+  font-family: "Manrope", sans-serif;
+}
+
+@layer base {
+  /* For Chrome, Safari, and Edge */
+  ::-webkit-scrollbar {
+    width: 2px;      /* Vertical scrollbar width */
+    height: 2px;     /* Horizontal scrollbar height */
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;    /* A light slate color to match the UI */
+    border-radius: 10px;    /* Makes it rounded */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;    /* Darkens slightly on hover */
+  }
+
+  /* For Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+a,
+input,
+select,
+button,
+video,
+table,
+td,
+tr,
+th,
+tbody,
+textarea {
+  outline: none !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
