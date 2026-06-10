@@ -105,7 +105,7 @@ const AgentRequestList = () => {
                         size="sm"
                         color="primary"
                         name={item?.userId?.fullName}
-                        src={item?.userId?.photos?.[0]?.url}
+                        src={item?.userId?.profilePhoto?.url}
                       />
                       <div>
                         <p className="font-medium text-sm">

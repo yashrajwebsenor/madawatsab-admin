@@ -91,9 +91,15 @@ export enum AgentRequestStatus {
 export enum AttachmentTypes {
   ad_video = "ad_video",
   ad_banner = "ad_banner",
+  profile_picture = "profile_picture",
   profile_photo = "profile_photo",
   chat_image = "chat_image",
   chat_video = "chat_video",
+}
+
+export enum AttachmentStatus {
+  pending = "pending",
+  approved = "approved",
 }
 
 export enum MetadataTypes {

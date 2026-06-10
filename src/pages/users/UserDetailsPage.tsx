@@ -132,7 +132,7 @@ const UserDetailsPage = () => {
             description={user?.mobile}
             name={`${user?.fullName} (${user?.userId})`}
             avatarProps={{
-              src: user?.photos?.[0]?.url,
+              src: user?.profilePhoto?.url,
               className: "w-16 h-16 text-large",
               name: user?.fullName?.[0],
             }}

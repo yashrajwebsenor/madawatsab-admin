@@ -13,6 +13,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Switch,
 } from "@heroui/react";
 import { useState } from "react";
 
@@ -70,6 +71,24 @@ const ConfigDialog = ({ isOpen, onClose, config, refresh }: Props) => {
                   description={config.description}
                   onChange={(ev) => setValue(ev.target.value)}
                 />
+              )}
+
+              {config.valueType === ConfigValueTypes.boolean && (
+                <div className="flex flex-col gap-2">
+                  <Switch
+                    isSelected={value === "true"}
+                    onValueChange={(checked) =>
+                      setValue(checked ? "true" : "false")
+                    }
+                  >
+                    {value === "true" ? "Enabled" : "Disabled"}
+                  </Switch>
+                  {config.description && (
+                    <p className="text-xs text-gray-500">
+                      {config.description}
+                    </p>
+                  )}
+                </div>
               )}
 
               <Alert color="warning" title="Important" className="items-start">

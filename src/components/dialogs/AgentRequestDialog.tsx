@@ -126,7 +126,7 @@ const AgentRequestDialog = ({
                     isBordered
                     radius="full"
                     color={isAccepting ? "success" : "danger"}
-                    src={data?.userId?.photos?.[0]?.url}
+                    src={data?.userId?.profilePhoto?.url}
                     className="text-large h-20 w-20 flex-shrink-0"
                     fallback={<FiUser size={32} className="text-default-400" />}
                   />

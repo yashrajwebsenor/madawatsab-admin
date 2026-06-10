@@ -75,6 +75,11 @@ const ENDPOINTS = {
   ATTACHMENTS: {
     DELETE: (id: string) => `attachments/${id}`,
   },
+  PHOTO_REVIEWS: {
+    PENDING_USERS: "attachments/photos/pending-users",
+    USER_PHOTOS: (userId: string) => `attachments/photos/user/${userId}`,
+    UPDATE_STATUS: (id: string) => `attachments/${id}/status`,
+  },
   METADATA: {
     BULK_CREATE: "metadata/bulk-create",
     DELETE: (id: string) => `metadata/${id}`,

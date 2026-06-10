@@ -76,7 +76,7 @@ const UsersListPage = () => {
                     size="sm"
                     color="primary"
                     name={item?.fullName}
-                    src={item?.photos?.[0]?.url}
+                    src={item?.profilePhoto?.url}
                   />
                   <div>
                     <p className="font-medium text-sm">{item?.fullName}</p>

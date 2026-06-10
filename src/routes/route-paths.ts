@@ -43,6 +43,10 @@ const ROUTE_PATHS = {
     HELP_SUPPORT: {
       LIST: "/app/help-support",
     },
+    PHOTO_REVIEWS: {
+      LIST: "/app/photo-reviews",
+      DETAILS: "/app/photo-reviews/:userId",
+    },
     CONFIGS: {
       LIST: "/app/configs",
       METADATA: {

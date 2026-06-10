@@ -77,7 +77,7 @@ const HelpSupportListPage = () => {
                     size="sm"
                     color="primary"
                     name={item?.user?.fullName}
-                    src={item?.user?.photos?.[0]?.url}
+                    src={item?.user?.profilePhoto?.url}
                   />
                   <div>
                     <p className="font-medium text-sm">

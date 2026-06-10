@@ -1,5 +1,6 @@
 import {
   AgentRequestStatus,
+  AttachmentStatus,
   AttachmentTypes,
   ConfigValueTypes,
   HelpSupportStatus,
@@ -37,6 +38,7 @@ export interface User {
   qualification: string;
   sect: string;
   workSector: string;
+  profilePhoto?: Photo;
   photos: Photo[];
   isEntryFeePaid: boolean;
   address: Address;
@@ -86,6 +88,33 @@ export interface Photo {
   _id: string;
   url: string;
   type: AttachmentTypes;
+  status?: AttachmentStatus;
+}
+
+export interface PendingPhotoUser {
+  userId: string;
+  pendingCount: number;
+  fullName: string | null;
+  mobile: string | null;
+  profilePhoto?: Photo | null;
+}
+
+export interface ReviewPhoto {
+  _id: string;
+  url: string;
+  status: AttachmentStatus;
+  createdAt: string;
+}
+
+export interface UserPhotosReview {
+  user: {
+    _id: string;
+    fullName: string;
+    mobile: string;
+    gender?: string | null;
+    profilePhoto?: Photo | null;
+  };
+  photos: ReviewPhoto[];
 }
 
 export interface DialogProps {

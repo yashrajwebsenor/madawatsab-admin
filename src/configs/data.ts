@@ -3,6 +3,7 @@ import {
   MdOutlineAdminPanelSettings,
   MdOutlineCategory,
   MdOutlineDashboard,
+  MdOutlinePhotoLibrary,
   MdOutlineRealEstateAgent,
   MdOutlineSubscriptions,
 } from "react-icons/md";
@@ -52,6 +53,13 @@ export const navigations = {
           title: "Customer Management",
           href: ROUTE_PATHS.APP.USERS.LIST,
           icon: TbUsersGroup,
+          type: "item",
+          permission: PERMISSIONS.USERS,
+        },
+        {
+          title: "Photo Reviews",
+          href: ROUTE_PATHS.APP.PHOTO_REVIEWS.LIST,
+          icon: MdOutlinePhotoLibrary,
           type: "item",
           permission: PERMISSIONS.USERS,
         },
