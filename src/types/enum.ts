@@ -5,6 +5,24 @@ export enum UserTypes {
   super_admin = "super_admin",
 }
 
+// Mirrors backend ReportReason / ReportStatus.
+export enum ReportReason {
+  fraud = "fraud",
+  fake_profile = "fake_profile",
+  wrong_photos = "wrong_photos",
+  inappropriate_content = "inappropriate_content",
+  harassment = "harassment",
+  spam = "spam",
+  other = "other",
+}
+
+export enum ReportStatus {
+  pending = "pending",
+  reviewed = "reviewed",
+  dismissed = "dismissed",
+  action_taken = "action_taken",
+}
+
 export enum ProfileFor {
   self = "self",
   son = "son",

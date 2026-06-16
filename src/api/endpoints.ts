@@ -61,6 +61,13 @@ const ENDPOINTS = {
     LIST: "help-support",
     UPDATE_STATUS: (id: string) => `help-support/${id}/status`,
   },
+  REPORTS: {
+    LIST: "reports",
+    DETAILS: (id: string) => `reports/${id}`,
+    UPDATE_STATUS: (id: string) => `reports/${id}/status`,
+    BAN_USER: (id: string) => `reports/${id}/ban-user`,
+    UNBAN_USER: (id: string) => `reports/${id}/unban-user`,
+  },
   CONFIGS: {
     LIST: "configs",
     UPDATE: (id: string) => `configs/${id}`,

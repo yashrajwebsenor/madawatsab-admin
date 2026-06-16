@@ -10,6 +10,7 @@ export const PERMISSIONS = {
   PLANS: "plans",
   ADVERTISEMENTS: "advertisements",
   HELP_SUPPORT: "help_support",
+  REPORTS: "reports",
   CMS: "cms",
   METADATA: "metadata",
   CONFIGS: "configs",

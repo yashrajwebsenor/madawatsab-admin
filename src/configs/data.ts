@@ -5,6 +5,7 @@ import {
   MdOutlineDashboard,
   MdOutlinePhotoLibrary,
   MdOutlineRealEstateAgent,
+  MdOutlineReportProblem,
   MdOutlineSubscriptions,
 } from "react-icons/md";
 import { GrConfigure, GrUserAdmin } from "react-icons/gr";
@@ -83,6 +84,13 @@ export const navigations = {
           icon: BiSupport,
           type: "item",
           permission: PERMISSIONS.HELP_SUPPORT,
+        },
+        {
+          title: "Reports",
+          href: ROUTE_PATHS.APP.REPORTS.LIST,
+          icon: MdOutlineReportProblem,
+          type: "item",
+          permission: PERMISSIONS.REPORTS,
         },
       ],
     },

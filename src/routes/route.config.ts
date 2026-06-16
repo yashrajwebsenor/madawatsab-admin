@@ -125,6 +125,16 @@ const routes = [
         permission: PERMISSIONS.HELP_SUPPORT,
       },
       {
+        path: ROUTE_PATHS.APP.REPORTS.LIST,
+        component: lazy(() => import("@/pages/reports/ReportListPage")),
+        permission: PERMISSIONS.REPORTS,
+      },
+      {
+        path: ROUTE_PATHS.APP.REPORTS.DETAILS,
+        component: lazy(() => import("@/pages/reports/ReportDetailPage")),
+        permission: PERMISSIONS.REPORTS,
+      },
+      {
         path: ROUTE_PATHS.APP.PHOTO_REVIEWS.LIST,
         component: lazy(
           () => import("@/pages/photo-reviews/PhotoReviewListPage"),
