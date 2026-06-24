@@ -21,6 +21,8 @@ export interface User {
   };
   isOnboardingCompleted: boolean;
   isPrivate: boolean;
+  isDeleted?: boolean;
+  deletedAt?: string;
   appLanguage: string;
   createdAt: string;
   updatedAt: string;

@@ -12,17 +12,22 @@ import CommonUtils from "@/utils/common.utils";
 import {
   Avatar,
   Button,
+  Chip,
+  Tab,
   Table,
   TableBody,
   TableCell,
   TableColumn,
   TableHeader,
   TableRow,
+  Tabs,
 } from "@heroui/react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import SendNotificationDialog from "@/components/dialogs/SendNotificationDialog";
+
+type AccountStatus = "active" | "deleted" | "all";
 
 const UsersListPage = () => {
   const [notificationModal, setNotificationModal] = useState<any>({
@@ -30,13 +35,15 @@ const UsersListPage = () => {
     data: [],
   });
 
+  const [status, setStatus] = useState<AccountStatus>("active");
+
   const { page, setTotalPages, renderPagination } = usePagination();
 
   const { data: users = [], isLoading } = useQuery({
-    queryKey: ["users", page],
+    queryKey: ["users", page, status],
     queryFn: async () => {
       const res: any = await http.get(ENDPOINTS.USERS.LIST, {
-        params: { page, limit: 10 },
+        params: { page, limit: 10, status },
       });
       setTotalPages(res?.pagination?.totalPages);
       return (res?.data || []) as User[];
@@ -51,6 +58,17 @@ const UsersListPage = () => {
         createLabel="Add Customer"
         createAction={ROUTE_PATHS.APP.USERS.CREATE}
       />
+
+      <Tabs
+        aria-label="Account status"
+        selectedKey={status}
+        onSelectionChange={(key) => setStatus(key as AccountStatus)}
+        className="mt-3"
+      >
+        <Tab key="active" title="Active" />
+        <Tab key="deleted" title="Deleted" />
+        <Tab key="all" title="All" />
+      </Tabs>
 
       <Table shadow="none" className="mt-3">
         <TableHeader>
@@ -79,7 +97,14 @@ const UsersListPage = () => {
                     src={item?.profilePhoto?.url}
                   />
                   <div>
-                    <p className="font-medium text-sm">{item?.fullName}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium text-sm">{item?.fullName}</p>
+                      {item?.isDeleted && (
+                        <Chip color="danger" size="sm" variant="flat">
+                          Deleted
+                        </Chip>
+                      )}
+                    </div>
                     <p className="text-xs text-default-500">{item?.userId}</p>
                   </div>
                 </div>
