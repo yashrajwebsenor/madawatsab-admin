@@ -9,6 +9,7 @@ const ENDPOINTS = {
     LIST: "/users",
     CREATE: "/users",
     DETAILS: (id: string) => `/users/${id}`,
+    VERIFY: (id: string) => `/users/${id}/verify`,
   },
   PERMISSIONS: {
     ALL: "/permissions",

@@ -10,6 +10,7 @@ import { CompleteStatus } from "@/types/enum";
 import { User } from "@/types/types";
 import CommonUtils from "@/utils/common.utils";
 import {
+  addToast,
   Avatar,
   Button,
   Chip,
@@ -23,11 +24,12 @@ import {
   Tabs,
 } from "@heroui/react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { MdVerified } from "react-icons/md";
 import SendNotificationDialog from "@/components/dialogs/SendNotificationDialog";
 
-type AccountStatus = "active" | "deleted" | "all";
+type VerifiedFilter = "all" | "verified" | "unverified";
 
 const UsersListPage = () => {
   const [notificationModal, setNotificationModal] = useState<any>({
@@ -35,20 +37,43 @@ const UsersListPage = () => {
     data: [],
   });
 
-  const [status, setStatus] = useState<AccountStatus>("active");
+  const [verified, setVerified] = useState<VerifiedFilter>("all");
+  const [verifyingId, setVerifyingId] = useState<string | null>(null);
 
+  const queryClient = useQueryClient();
   const { page, setTotalPages, renderPagination } = usePagination();
 
   const { data: users = [], isLoading } = useQuery({
-    queryKey: ["users", page, status],
+    queryKey: ["users", page, verified],
     queryFn: async () => {
       const res: any = await http.get(ENDPOINTS.USERS.LIST, {
-        params: { page, limit: 10, status },
+        params: {
+          page,
+          limit: 10,
+          ...(verified !== "all" && { verified }),
+        },
       });
       setTotalPages(res?.pagination?.totalPages);
       return (res?.data || []) as User[];
     },
   });
+
+  const handleVerify = async (id: string) => {
+    try {
+      setVerifyingId(id);
+      await http.put(ENDPOINTS.USERS.VERIFY(id), { isVerified: true });
+      addToast({
+        title: "Success",
+        description: "User verified",
+        color: "success",
+      });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setVerifyingId(null);
+    }
+  };
 
   return (
     <div>
@@ -60,14 +85,15 @@ const UsersListPage = () => {
       />
 
       <Tabs
-        aria-label="Account status"
-        selectedKey={status}
-        onSelectionChange={(key) => setStatus(key as AccountStatus)}
+        aria-label="Verification"
+        color="primary"
+        selectedKey={verified}
+        onSelectionChange={(key) => setVerified(key as VerifiedFilter)}
         className="mt-3"
       >
-        <Tab key="active" title="Active" />
-        <Tab key="deleted" title="Deleted" />
         <Tab key="all" title="All" />
+        <Tab key="verified" title="Verified" />
+        <Tab key="unverified" title="Unverified" />
       </Tabs>
 
       <Table shadow="none" className="mt-3">
@@ -99,6 +125,12 @@ const UsersListPage = () => {
                   <div>
                     <div className="flex items-center gap-2">
                       <p className="font-medium text-sm">{item?.fullName}</p>
+                      {item?.isVerified && (
+                        <MdVerified
+                          className="text-primary shrink-0"
+                          aria-label="Verified"
+                        />
+                      )}
                       {item?.isDeleted && (
                         <Chip color="danger" size="sm" variant="flat">
                           Deleted
@@ -159,6 +191,21 @@ const UsersListPage = () => {
                 >
                   View
                 </Button>
+                {!item?.isVerified && !item?.isDeleted && (
+                  <Button
+                    color="primary"
+                    size="sm"
+                    variant="solid"
+                    className="font-medium"
+                    isLoading={verifyingId === item._id}
+                    startContent={
+                      verifyingId !== item._id && <MdVerified size={16} />
+                    }
+                    onPress={() => handleVerify(item._id)}
+                  >
+                    Verify
+                  </Button>
+                )}
                 <Button
                   size="sm"
                   variant="flat"

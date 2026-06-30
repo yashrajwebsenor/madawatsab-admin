@@ -17,6 +17,7 @@ import {
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
+import { MdVerified } from "react-icons/md";
 import {
   HiOutlineAcademicCap,
   HiOutlineCamera,
@@ -82,6 +83,7 @@ const Section = ({
 const UserDetailsPage = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [verifying, setVerifying] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [photosModal, setPhotosModal] = useState<any>({
     isOpen: false,
@@ -98,6 +100,25 @@ const UserDetailsPage = () => {
       console.log(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleToggleVerified = async () => {
+    if (!user) return;
+    const next = !user.isVerified;
+    try {
+      setVerifying(true);
+      await http.put(ENDPOINTS.USERS.VERIFY(user._id), { isVerified: next });
+      setUser({ ...user, isVerified: next });
+      addToast({
+        title: "Success",
+        description: next ? "User verified" : "Verification removed",
+        color: "success",
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setVerifying(false);
     }
   };
 
@@ -142,7 +163,16 @@ const UserDetailsPage = () => {
             }}
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {user?.isVerified && (
+            <Chip
+              color="primary"
+              variant="flat"
+              startContent={<MdVerified size={16} />}
+            >
+              Verified
+            </Chip>
+          )}
           <Chip
             color={user?.isOnboardingCompleted ? "success" : "warning"}
             variant="flat"
@@ -157,6 +187,16 @@ const UserDetailsPage = () => {
           >
             {user?.isPrivate ? "Private Profile" : "Public Profile"}
           </Chip>
+          <Button
+            size="sm"
+            variant={user?.isVerified ? "bordered" : "solid"}
+            color="primary"
+            isLoading={verifying}
+            startContent={!verifying && <MdVerified size={16} />}
+            onClick={handleToggleVerified}
+          >
+            {user?.isVerified ? "Remove Verification" : "Verify User"}
+          </Button>
         </div>
       </div>
 
@@ -214,12 +254,20 @@ const UserDetailsPage = () => {
                 value={user?.family?.fatherOccupation}
               />
               <DetailItem
+                label="Father's Contact"
+                value={user?.family?.fatherContact}
+              />
+              <DetailItem
                 label="Mother's Name"
                 value={user?.family?.motherName}
               />
               <DetailItem
                 label="Mother's Occupation"
                 value={user?.family?.motherOccupation}
+              />
+              <DetailItem
+                label="Mother's Contact"
+                value={user?.family?.motherContact}
               />
             </Section>
           )}

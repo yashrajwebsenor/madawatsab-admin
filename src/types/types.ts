@@ -21,6 +21,7 @@ export interface User {
   };
   isOnboardingCompleted: boolean;
   isPrivate: boolean;
+  isVerified?: boolean;
   isDeleted?: boolean;
   deletedAt?: string;
   appLanguage: string;
@@ -82,8 +83,10 @@ export interface Family {
   familyType: string;
   fatherName: string;
   fatherOccupation: string;
+  fatherContact: string;
   motherName: string;
   motherOccupation: string;
+  motherContact: string;
 }
 
 export interface Photo {
