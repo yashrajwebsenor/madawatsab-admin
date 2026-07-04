@@ -10,6 +10,7 @@ const ENDPOINTS = {
     CREATE: "/users",
     DETAILS: (id: string) => `/users/${id}`,
     VERIFY: (id: string) => `/users/${id}/verify`,
+    BAN: (id: string) => `/users/${id}/ban`,
   },
   PERMISSIONS: {
     ALL: "/permissions",

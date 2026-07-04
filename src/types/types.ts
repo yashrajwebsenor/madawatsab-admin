@@ -6,6 +6,7 @@ import {
   HelpSupportStatus,
   MetadataTypes,
   ProfileFor,
+  SpinSegmentType,
   UserTypes,
 } from "./enum";
 
@@ -22,6 +23,7 @@ export interface User {
   isOnboardingCompleted: boolean;
   isPrivate: boolean;
   isVerified?: boolean;
+  isBanned?: boolean;
   isDeleted?: boolean;
   deletedAt?: string;
   appLanguage: string;
@@ -207,6 +209,16 @@ export interface Config {
   description: string;
   updatedAt: string;
   valueType: ConfigValueTypes;
+}
+
+// One of the 6 spin-wheel outcomes — the parsed shape of the
+// `spinWheelSegments` config's JSON `value` string.
+export interface SpinWheelSegment {
+  label: string;
+  type: SpinSegmentType;
+  amount: number;
+  probability: number;
+  color?: string;
 }
 
 export interface AgentRequest {

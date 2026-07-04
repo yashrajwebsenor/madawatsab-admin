@@ -26,7 +26,8 @@ import {
 import { Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { MdVerified } from "react-icons/md";
+import { MdBlock, MdVerified } from "react-icons/md";
+import { FiUnlock } from "react-icons/fi";
 import SendNotificationDialog from "@/components/dialogs/SendNotificationDialog";
 
 type VerifiedFilter = "all" | "verified" | "unverified";
@@ -39,6 +40,7 @@ const UsersListPage = () => {
 
   const [verified, setVerified] = useState<VerifiedFilter>("all");
   const [verifyingId, setVerifyingId] = useState<string | null>(null);
+  const [banningId, setBanningId] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
   const { page, setTotalPages, renderPagination } = usePagination();
@@ -72,6 +74,23 @@ const UsersListPage = () => {
       console.log(error);
     } finally {
       setVerifyingId(null);
+    }
+  };
+
+  const handleToggleBan = async (id: string, nextBanned: boolean) => {
+    try {
+      setBanningId(id);
+      await http.put(ENDPOINTS.USERS.BAN(id), { isBanned: nextBanned });
+      addToast({
+        title: "Success",
+        description: nextBanned ? "User banned" : "User unbanned",
+        color: nextBanned ? "danger" : "success",
+      });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setBanningId(null);
     }
   };
 
@@ -134,6 +153,11 @@ const UsersListPage = () => {
                       {item?.isDeleted && (
                         <Chip color="danger" size="sm" variant="flat">
                           Deleted
+                        </Chip>
+                      )}
+                      {item?.isBanned && (
+                        <Chip color="danger" size="sm" variant="flat">
+                          Banned
                         </Chip>
                       )}
                     </div>
@@ -218,6 +242,24 @@ const UsersListPage = () => {
                   }
                 >
                   Notify
+                </Button>
+                <Button
+                  color={item?.isBanned ? "success" : "danger"}
+                  size="sm"
+                  variant="flat"
+                  className="font-medium"
+                  isLoading={banningId === item._id}
+                  startContent={
+                    banningId !== item._id &&
+                    (item?.isBanned ? (
+                      <FiUnlock size={16} />
+                    ) : (
+                      <MdBlock size={16} />
+                    ))
+                  }
+                  onPress={() => handleToggleBan(item._id, !item?.isBanned)}
+                >
+                  {item?.isBanned ? "Unban" : "Ban"}
                 </Button>
               </TableCell>
             </TableRow>

@@ -99,6 +99,12 @@ export enum ConfigValueTypes {
   text = "text",
   boolean = "boolean",
   number = "number",
+  json = "json",
+}
+
+export enum SpinSegmentType {
+  discount = "discount",
+  free_entry = "free_entry",
 }
 
 export enum AgentRequestStatus {

@@ -6,6 +6,7 @@ import LoadingProgress from "@/components/lib/LoadingProgress";
 import TableDate from "@/components/tables/TableDate";
 import usePagination from "@/hooks/usePagination";
 import { Config } from "@/types/types";
+import { ConfigValueTypes } from "@/types/enum";
 import {
   Button,
   Table,
@@ -72,7 +73,17 @@ const ConfigListPage = () => {
                   {item.description}
                 </p>
               </TableCell>
-              <TableCell>{item.value}</TableCell>
+              <TableCell>
+                {item.valueType === ConfigValueTypes.json
+                  ? `${(() => {
+                      try {
+                        return JSON.parse(item.value)?.length ?? 0;
+                      } catch {
+                        return 0;
+                      }
+                    })()} segments configured`
+                  : item.value}
+              </TableCell>
               <TableCell>
                 <TableDate date={item?.updatedAt} />
               </TableCell>

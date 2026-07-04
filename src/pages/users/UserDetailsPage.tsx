@@ -16,8 +16,8 @@ import {
 } from "@heroui/react";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import { FiTrash2 } from "react-icons/fi";
-import { MdVerified } from "react-icons/md";
+import { FiTrash2, FiUnlock } from "react-icons/fi";
+import { MdBlock, MdVerified } from "react-icons/md";
 import {
   HiOutlineAcademicCap,
   HiOutlineCamera,
@@ -84,6 +84,7 @@ const UserDetailsPage = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [verifying, setVerifying] = useState(false);
+  const [banning, setBanning] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [photosModal, setPhotosModal] = useState<any>({
     isOpen: false,
@@ -119,6 +120,25 @@ const UserDetailsPage = () => {
       console.log(error);
     } finally {
       setVerifying(false);
+    }
+  };
+
+  const handleToggleBanned = async () => {
+    if (!user) return;
+    const next = !user.isBanned;
+    try {
+      setBanning(true);
+      await http.put(ENDPOINTS.USERS.BAN(user._id), { isBanned: next });
+      setUser({ ...user, isBanned: next });
+      addToast({
+        title: "Success",
+        description: next ? "User banned" : "User unbanned",
+        color: next ? "danger" : "success",
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setBanning(false);
     }
   };
 
@@ -164,6 +184,15 @@ const UserDetailsPage = () => {
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          {user?.isBanned && (
+            <Chip
+              color="danger"
+              variant="flat"
+              startContent={<MdBlock size={16} />}
+            >
+              Banned
+            </Chip>
+          )}
           {user?.isVerified && (
             <Chip
               color="primary"
@@ -196,6 +225,23 @@ const UserDetailsPage = () => {
             onClick={handleToggleVerified}
           >
             {user?.isVerified ? "Remove Verification" : "Verify User"}
+          </Button>
+          <Button
+            size="sm"
+            variant="flat"
+            color={user?.isBanned ? "success" : "danger"}
+            isLoading={banning}
+            startContent={
+              !banning &&
+              (user?.isBanned ? (
+                <FiUnlock size={16} />
+              ) : (
+                <MdBlock size={16} />
+              ))
+            }
+            onClick={handleToggleBanned}
+          >
+            {user?.isBanned ? "Unban User" : "Ban User"}
           </Button>
         </div>
       </div>
