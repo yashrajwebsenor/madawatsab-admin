@@ -77,6 +77,14 @@ export const agentSchema: any = yup.object({
     .typeError("Mobile number must be a number")
     .required("Mobile number is required")
     .length(10, "Mobile number must be 10 digits"),
+  referralCode: yup
+    .string()
+    .trim()
+    .required("Referral code is required")
+    .matches(
+      /^[A-Za-z0-9_-]+$/,
+      "Referral code can only contain letters, numbers, hyphens and underscores",
+    ),
   gender: yup.string().trim().required("Gender is required"),
   country: yup.string().trim().required("Country is required"),
   state: yup.string().trim().required("State is required"),

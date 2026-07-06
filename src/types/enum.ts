@@ -113,6 +113,12 @@ export enum AgentRequestStatus {
   rejected = "rejected",
 }
 
+export enum PartnerPreferenceStatus {
+  pending = "pending",
+  matched = "matched",
+  closed = "closed",
+}
+
 export enum AttachmentTypes {
   ad_video = "ad_video",
   ad_banner = "ad_banner",

@@ -38,11 +38,15 @@ http.interceptors.response.use(
       CommonUtils.logout();
     }
 
-    addToast({
-      title: "Oops!",
-      color: "danger",
-      description: error?.response?.data?.message || "Something went wrong",
-    });
+    // Callers can opt out of the global error toast (e.g. a probe request
+    // where a 4xx is an expected, non-error outcome) via config.skipErrorToast.
+    if (!error?.config?.skipErrorToast) {
+      addToast({
+        title: "Oops!",
+        color: "danger",
+        description: error?.response?.data?.message || "Something went wrong",
+      });
+    }
 
     return Promise.reject(error?.response?.data);
   },

@@ -34,10 +34,37 @@ const ENDPOINTS = {
     CREATE: "agents",
     LIST: "agents",
     USERS_LIST: "agents/users",
-    REQUESTS: "agents/requests",
+    CUSTOMERS_OF: (id: string) => `agents/${id}/users`,
     UPDATE: (id: string) => `agents/${id}`,
     DELETE: (id: string) => `agents/${id}`,
-    UPDATE_REQUEST: (id: string) => `agents/requests/${id}`,
+    REGISTER: {
+      SEND_OTP: "agents/register/send-otp",
+      VERIFY_OTP: "agents/register/verify-otp",
+      GET: (userId: string) => `agents/register/${userId}`,
+      UPDATE_PROFILE: (userId: string) => `agents/register/${userId}/profile`,
+      UPDATE_FAMILY: (userId: string) => `agents/register/${userId}/family`,
+      UPLOAD_PROFILE_PHOTO: (userId: string) =>
+        `agents/register/${userId}/profile-photo`,
+      UPLOAD_GALLERY_PHOTO: (userId: string) =>
+        `agents/register/${userId}/gallery-photo`,
+    },
+    REQUEST_PROFILE_VIEW: (userId: string) =>
+      `agents/customers/${userId}/request-view`,
+    VERIFY_PROFILE_VIEW: (userId: string) =>
+      `agents/customers/${userId}/verify-view`,
+    GET_FULL_PROFILE: (userId: string) => `agents/customers/${userId}/full`,
+    SEND_REQUIREMENT: (userId: string) =>
+      `agents/customers/${userId}/requirement`,
+  },
+  PARTNER_REQUIREMENTS: {
+    LIST: "partner-requirements",
+    MATCHES: "partner-requirements/matches",
+    SEND_RECOMMENDATION: "partner-requirements/recommendations",
+  },
+  AGENT_REQUESTS: {
+    LIST: "agent-requests",
+    SEARCH_AGENTS: "agent-requests/search-agents",
+    ASSIGN: (id: string) => `agent-requests/${id}/assign`,
   },
   PLANS: {
     CREATE: "plans",
@@ -77,6 +104,7 @@ const ENDPOINTS = {
     STATES: (countryId: string) => `configs/states/${countryId}`,
     CITIES: (countryId: string, stateId: string) =>
       `configs/cities/${countryId}/${stateId}`,
+    SEARCH_CITIES: "configs/cities/search",
   },
   NOTIFICATIONS: {
     SEND: "notifications/send",

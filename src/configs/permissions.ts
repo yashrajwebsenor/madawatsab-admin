@@ -15,4 +15,6 @@ export const PERMISSIONS = {
   METADATA: "metadata",
   CONFIGS: "configs",
   NOTIFICATIONS: "notifications",
+  PARTNER_REQUIREMENTS: "partner_requirements",
+  AGENT_REQUESTS: "agent_requests",
 } as const;

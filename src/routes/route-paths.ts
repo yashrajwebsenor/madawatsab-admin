@@ -18,8 +18,9 @@ const ROUTE_PATHS = {
       LIST: "/app/agents",
       CREATE: "/app/agents/create",
       UPDATE: "/app/agents/:id/update",
-      REQUESTS: "/app/agents/requests",
+      DETAILS: "/app/agents/:id",
       CUSTOMERS: "/app/agents/customers",
+      REGISTER: "/app/agents/register",
     },
     ROLES: {
       LIST: "/app/roles",
@@ -57,6 +58,12 @@ const ROUTE_PATHS = {
         LIST: "/app/configs/metadata/:type",
         CREATE: "/app/configs/metadata/:type/create",
       },
+    },
+    PARTNER_REQUIREMENTS: {
+      LIST: "/app/partner-requirements",
+    },
+    AGENT_REQUESTS: {
+      LIST: "/app/agent-requests",
     },
   },
 };

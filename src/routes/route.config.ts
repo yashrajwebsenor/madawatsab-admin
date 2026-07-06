@@ -179,14 +179,36 @@ const routes = [
         permission: PERMISSIONS.AGENTS,
       },
       {
-        // Agent-portal page — gated by userType only, no admin permission.
-        path: ROUTE_PATHS.APP.AGENTS.REQUESTS,
-        component: lazy(() => import("@/pages/agents/AgentRequestList")),
+        path: ROUTE_PATHS.APP.AGENTS.DETAILS,
+        component: lazy(() => import("@/pages/agents/AgentDetailPage")),
+        permission: PERMISSIONS.AGENTS,
       },
       {
         // Agent-portal page — gated by userType only, no admin permission.
         path: ROUTE_PATHS.APP.AGENTS.CUSTOMERS,
         component: lazy(() => import("@/pages/agents/AgentCustomersList")),
+      },
+      {
+        // Agent-portal page — gated by userType only, no admin permission.
+        path: ROUTE_PATHS.APP.AGENTS.REGISTER,
+        component: lazy(
+          () => import("@/pages/agents/register/RegisterCustomerPage"),
+        ),
+      },
+      {
+        path: ROUTE_PATHS.APP.PARTNER_REQUIREMENTS.LIST,
+        component: lazy(
+          () =>
+            import("@/pages/partner-requirements/PartnerRequirementListPage"),
+        ),
+        permission: PERMISSIONS.PARTNER_REQUIREMENTS,
+      },
+      {
+        path: ROUTE_PATHS.APP.AGENT_REQUESTS.LIST,
+        component: lazy(
+          () => import("@/pages/agent-requests/AgentRequestListPage"),
+        ),
+        permission: PERMISSIONS.AGENT_REQUESTS,
       },
     ],
   },

@@ -5,6 +5,7 @@ import {
   ConfigValueTypes,
   HelpSupportStatus,
   MetadataTypes,
+  PartnerPreferenceStatus,
   ProfileFor,
   SpinSegmentType,
   UserTypes,
@@ -51,6 +52,16 @@ export interface User {
   userId: string;
   contactViewBalance?: number;
   contactViewLifetime?: number;
+  assignedAgent?: { _id: string; fullName: string; mobile: string } | null;
+  // Lightweight active-subscription snapshot returned by the Customer
+  // Management list aggregate (distinct from the richer `subscription` object
+  // below, which comes from the per-user subscription-summary endpoint).
+  activeSubscription?: {
+    _id: string;
+    planType: string;
+    planDuration: string;
+    expiryDate: string;
+  } | null;
   subscription: {
     hasActivePlan: boolean;
     planName: string;
@@ -224,8 +235,49 @@ export interface SpinWheelSegment {
 export interface AgentRequest {
   _id: string;
   userId: User;
+  agentId?: { _id: string; fullName: string; mobile: string } | null;
+  pincode?: string;
+  preferredAgentGender?: string;
   status: AgentRequestStatus;
   createdAt: string;
+}
+
+export interface AgentCandidate {
+  _id: string;
+  fullName: string;
+  mobile: string;
+  email?: string;
+  gender?: string;
+  referralCode?: string;
+  profilePhoto?: Photo;
+  address?: Address;
+}
+
+export interface PartnerPreferenceRequest {
+  _id: string;
+  userId: User;
+  agentId: { _id: string; fullName: string; mobile: string };
+  requirementText: string;
+  status: PartnerPreferenceStatus;
+  createdAt: string;
+}
+
+export interface MatchCandidate {
+  _id: string;
+  fullName: string;
+  userId: string;
+  gender: string;
+  dob: string;
+  height?: number;
+  sect?: string;
+  maslak?: string;
+  maritalStatus?: string;
+  community?: string;
+  qualification?: string;
+  workSector?: string;
+  annualIncome?: string;
+  profilePhoto?: Photo;
+  address?: Address;
 }
 
 export interface Metadata {

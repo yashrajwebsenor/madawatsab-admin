@@ -28,6 +28,7 @@ const defaultValues = {
   fullName: "",
   email: "",
   mobile: "",
+  referralCode: "",
   country: "",
   state: "",
   city: "",
@@ -76,6 +77,7 @@ const AgentFormPage = () => {
       setValue("fullName", data.fullName);
       setValue("email", data.email);
       setValue("mobile", data.mobile);
+      setValue("referralCode", data.referralCode);
       setValue("country", data.address.countryId);
       setValue("state", data.address.stateId);
       setValue("city", data.address.cityId);
@@ -293,6 +295,12 @@ const fields = [
     label: "Mobile Number",
     type: "number",
     placeholder: "Enter mobile number",
+  },
+  {
+    name: "referralCode",
+    label: "Referral Code",
+    type: "text",
+    placeholder: "Enter unique referral code",
   },
   {
     name: "country",

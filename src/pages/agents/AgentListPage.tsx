@@ -22,9 +22,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineDeleteOutline } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AgentListPage = () => {
+  const navigate = useNavigate();
   const { page, setTotalPages, renderPagination } = usePagination();
   const [deleteModal, setDeleteModal] = useState<any>({
     isOpen: false,
@@ -84,9 +85,19 @@ const AgentListPage = () => {
           loadingContent={<LoadingProgress />}
         >
           {(data ?? [])?.map((item) => (
-            <TableRow key={item._id}>
+            <TableRow
+              key={item._id}
+              className="cursor-pointer hover:bg-default-100"
+              onClick={() =>
+                navigate(
+                  ROUTE_PATHS.APP.AGENTS.DETAILS.replace(":id", item._id),
+                )
+              }
+            >
               <TableCell>
-                <p className="font-medium text-sm">{item?.fullName}</p>
+                <p className="font-medium text-sm hover:underline">
+                  {item?.fullName}
+                </p>
                 <p className="text-xs text-default-500 capitalize">
                   {item?.userId}
                 </p>
@@ -105,7 +116,10 @@ const AgentListPage = () => {
               <TableCell>
                 <TableDate date={item?.createdAt} />
               </TableCell>
-              <TableCell className="flex items-center justify-end gap-3">
+              <TableCell
+                className="flex items-center justify-end gap-3"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <Button
                   color="primary"
                   size="sm"

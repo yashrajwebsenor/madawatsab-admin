@@ -1,5 +1,7 @@
 import ENDPOINTS from "@/api/endpoints";
 import http from "@/api/http";
+import AgentProfileViewDialog from "@/components/dialogs/AgentProfileViewDialog";
+import SendRequirementDialog from "@/components/dialogs/SendRequirementDialog";
 import LoadingProgress from "@/components/lib/LoadingProgress";
 import TableDate from "@/components/tables/TableDate";
 import usePagination from "@/hooks/usePagination";
@@ -9,6 +11,7 @@ import CommonUtils from "@/utils/common.utils";
 import {
   Avatar,
   Button,
+  Chip,
   Table,
   TableBody,
   TableCell,
@@ -17,10 +20,17 @@ import {
   TableRow,
 } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { FiEye } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const AgentCustomersList = () => {
   const { page, setTotalPages, renderPagination } = usePagination();
+  const [viewModal, setViewModal] = useState<any>({ isOpen: false, data: null });
+  const [requirementModal, setRequirementModal] = useState<any>({
+    isOpen: false,
+    data: null,
+  });
 
   const { data, isLoading } = useQuery({
     queryKey: ["agent-customers", page],
@@ -47,6 +57,7 @@ const AgentCustomersList = () => {
           <TableColumn>Sect / Community</TableColumn>
           <TableColumn>Location</TableColumn>
           <TableColumn>Work / Education</TableColumn>
+          <TableColumn>Subscription</TableColumn>
           <TableColumn>Created At</TableColumn>
           <TableColumn align="end">Actions</TableColumn>
         </TableHeader>
@@ -110,9 +121,50 @@ const AgentCustomersList = () => {
                 </div>
               </TableCell>
               <TableCell>
+                {item?.activeSubscription ? (
+                  <div className="flex flex-col">
+                    <p className="text-sm capitalize">
+                      {CommonUtils.formatTitle(
+                        item.activeSubscription.planType,
+                      )}
+                    </p>
+                    <p className="text-xs text-default-500">
+                      {CommonUtils.formatTitle(
+                        item.activeSubscription.planDuration,
+                      )}
+                    </p>
+                  </div>
+                ) : (
+                  <Chip size="sm" variant="flat">
+                    No Plan
+                  </Chip>
+                )}
+              </TableCell>
+              <TableCell>
                 <TableDate date={item?.createdAt} />
               </TableCell>
-              <TableCell className="flex justify-end">
+              <TableCell className="flex gap-2 justify-end">
+                <Button
+                  color="secondary"
+                  size="sm"
+                  variant="flat"
+                  startContent={<FiEye size={16} />}
+                  onPress={() => setViewModal({ isOpen: true, data: item })}
+                  className="font-medium"
+                >
+                  Full Profile
+                </Button>
+                <Button
+                  color="warning"
+                  size="sm"
+                  variant="flat"
+                  onPress={() =>
+                    setRequirementModal({ isOpen: true, data: item })
+                  }
+                  className="font-medium"
+                >
+                  Send Requirement
+                </Button>
                 <Button
                   color="primary"
                   size="sm"
@@ -130,6 +182,22 @@ const AgentCustomersList = () => {
       </Table>
 
       {users?.length > 0 && renderPagination()}
+
+      {viewModal.isOpen && (
+        <AgentProfileViewDialog
+          isOpen={viewModal.isOpen}
+          data={viewModal.data}
+          onClose={() => setViewModal({ isOpen: false, data: null })}
+        />
+      )}
+
+      {requirementModal.isOpen && (
+        <SendRequirementDialog
+          isOpen={requirementModal.isOpen}
+          data={requirementModal.data}
+          onClose={() => setRequirementModal({ isOpen: false, data: null })}
+        />
+      )}
     </div>
   );
 };
